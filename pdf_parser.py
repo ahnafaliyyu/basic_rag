@@ -1,7 +1,6 @@
 import fitz  # PyMuPDF
 import pdfplumber
 from pathlib import Path
-import os
 import re
 
 # =====================================================
@@ -11,6 +10,7 @@ import re
 def extract_pdf_content(file_path):
     """
     Fungsi utama untuk mengekstrak teks dari PDF berbagai jenis.
+    Otomatis memilih metode terbaik: PyMuPDF, pdfplumber, atau OCR.
     """
     file_path = Path(file_path)
     
@@ -32,7 +32,6 @@ def extract_pdf_content(file_path):
             return metadata, text_ocr
     
     # 2. Coba dengan pdfplumber (lebih baik untuk tabel)
-    # PERBAIKAN: Unpack tuple menjadi text_plumber dan _ (abaikan metadata kosong)
     text_plumber, _ = _extract_with_pdfplumber(file_path)
     
     # Pilih teks yang lebih panjang/lebih banyak informasinya
